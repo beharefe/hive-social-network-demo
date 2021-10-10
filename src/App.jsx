@@ -5,6 +5,7 @@ import Nav from "./components/Nav";
 import Info from "./components/Info";
 import Home from "./pages/Home";
 import Community from "./pages/Community";
+import Proposals from "./pages/Proposals";
 import Post from "./pages/Post";
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
             <Route
               path="/proposals"
               exact
-              render={() => <div>Proposals</div>}
+              component={Proposals}
             />
           </Switch>
         </main>

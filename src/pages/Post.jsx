@@ -20,7 +20,7 @@ const Post = () => {
         <h2 className="text-2xl text-center mb-6">Check Other Communities</h2>
         {filteredCommunities.map(({ key, title }) => {
           return (
-            <Button>
+            <Button key={key}>
               <Link to={`/trending-communities/${key}`}>{title}</Link>
             </Button>
           );

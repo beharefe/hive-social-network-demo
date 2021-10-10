@@ -15,12 +15,14 @@ export function useGetCommunities() {
 
   useEffect(() => {
     setLoading(true);
+
     getPopularCommunities()
       .then(setCommunities)
       .catch(setError)
       .finally(() => {
         setLoading(false);
       });
+      
   }, []);
 
   return { communities, loading, error };
@@ -34,12 +36,14 @@ export function useGetCommunity(communityName) {
 
   useEffect(() => {
     setLoading(true);
+
     getCommunity(communityName)
       .then(setCommunity)
       .catch(setError)
       .finally(() => {
         setLoading(false);
       });
+      
   }, [communityName]);
 
   return { community, loading, error };
@@ -53,10 +57,12 @@ export function useGetCommunityPosts(communityName) {
 
   useEffect(() => {
     setLoading(true);
+
     getCommunityPosts(communityName)
       .then(setPosts)
       .catch(setError)
       .finally(() => setLoading(false));
+
   }, [communityName]);
 
   // dependent on communityName
@@ -73,12 +79,14 @@ export function useGetPost({ author, permlink }) {
 
   useEffect(() => {
     setLoading(true);
+
     getPost({ author, permlink })
       .then(setPost)
       .catch(setError)
       .finally(() => {
         setLoading(false);
       });
+
   }, [author, permlink]);
 
   return { post, loading, error };
@@ -89,6 +97,7 @@ export function useBlockInfo() {
   const [info, setInfo] = useState();
 
   useEffect(() => {
+    
     (async () => {
       for await (const block of getBlocks()) {
         setInfo({
@@ -99,6 +108,7 @@ export function useBlockInfo() {
         });
       }
     })();
+
   }, []);
 
   return info;
