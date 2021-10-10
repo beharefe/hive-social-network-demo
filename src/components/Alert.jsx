@@ -15,7 +15,7 @@ const Alert = ({ id, title, message, onClose }) => {
       p-4
       w-80
       rounded-lg
-      my-2`}
+      my-2 shadow-lg`}
     >
       <div className="flex justify-between mb-4">
         <h4 className="text-yellow-300 dark:text-yellow-600">{title}</h4>
