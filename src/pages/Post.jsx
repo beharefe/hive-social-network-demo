@@ -27,7 +27,7 @@ const Post = () => {
         })}
       </ul>
 
-      <div className="prose dark:bg-gray-50 col-span-2 py-4 rounded-lg">
+      <div className="prose dark:bg-gray-50 col-span-2 p-4 rounded-lg">
         <h3>Author: {postAuthor}</h3>
         <h1>{title}</h1>
         <br />
