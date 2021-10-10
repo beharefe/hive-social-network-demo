@@ -8,11 +8,11 @@ const Post = () => {
   const { post, loading } = useGetPost({ author, permlink });
   const { communities } = useGetCommunities();
 
-  if (loading) return <span className="text-green-400">Loading...</span>;
-
   const { category, body, title, author: postAuthor } = post;
 
-  const filteredCommunities = communities ? communities.filter(({ key }) => key !== category) : [];
+  const filteredCommunities = communities
+    ? communities.filter(({ key }) => key !== category)
+    : [];
 
   return (
     <div className=" py-2 rounded-lg grid grid-cols-3">
@@ -27,15 +27,19 @@ const Post = () => {
         })}
       </ul>
 
-      <div className="prose dark:bg-gray-50 col-span-2 p-4 rounded-lg">
-        <h3>Author: {postAuthor}</h3>
-        <h1>{title}</h1>
-        <br />
-        <article
-          className="prose mx-auto"
-          dangerouslySetInnerHTML={{ __html: marked(body || "") }}
-        ></article>
-      </div>
+      {loading ? (
+        <span className="text-green-400">Loading...</span>
+      ) : (
+        <div className="prose dark:bg-gray-50 col-span-2 p-4 rounded-lg max-w-full">
+          <h3>Author: {postAuthor}</h3>
+          <h1>{title}</h1>
+          <br />
+          <article
+            className="prose mx-auto"
+            dangerouslySetInnerHTML={{ __html: marked(body || "") }}
+          ></article>
+        </div>
+      )}
     </div>
   );
 };
