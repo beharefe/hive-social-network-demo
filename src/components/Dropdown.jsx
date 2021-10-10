@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useOnClickOutside } from "../hooks/utility";
 import Button from "./Button";
 
-const Dropdown = ({ label, items }) => {
+const Dropdown = ({ label, items = []}) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const btnRef = createRef();

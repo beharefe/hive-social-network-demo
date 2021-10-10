@@ -12,7 +12,7 @@ const Post = () => {
 
   const { category, body, title, author: postAuthor } = post;
 
-  const filteredCommunities = communities.filter(({ key }) => key !== category);
+  const filteredCommunities = communities ? communities.filter(({ key }) => key !== category) : [];
 
   return (
     <div className=" py-2 rounded-lg grid grid-cols-3">
