@@ -7,6 +7,7 @@
     "name": "Efe Behar",
     "url": "https://efebehar.dev"
   },
+  "homepage": "https://efebehar.github.io/hive-social-network-demo",
   "dependencies": {
     "@heroicons/react": "^1.0.4",
     "@hiveio/dhive": "^1.1.1",
@@ -27,7 +28,9 @@
     "start": "PORT=3456 craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepublish": "npm run build",
+    "publish": "npx gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
