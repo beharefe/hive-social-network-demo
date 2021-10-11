@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/hive-social-network-demo/static/css/main.3c889fe6.chunk.css",
-    "main.js": "/hive-social-network-demo/static/js/main.b84fdfa4.chunk.js",
-    "main.js.map": "/hive-social-network-demo/static/js/main.b84fdfa4.chunk.js.map",
+    "main.js": "/hive-social-network-demo/static/js/main.e7b9beeb.chunk.js",
+    "main.js.map": "/hive-social-network-demo/static/js/main.e7b9beeb.chunk.js.map",
     "runtime-main.js": "/hive-social-network-demo/static/js/runtime-main.a3ba5a19.js",
     "runtime-main.js.map": "/hive-social-network-demo/static/js/runtime-main.a3ba5a19.js.map",
-    "static/js/2.e2491e0b.chunk.js": "/hive-social-network-demo/static/js/2.e2491e0b.chunk.js",
-    "static/js/2.e2491e0b.chunk.js.map": "/hive-social-network-demo/static/js/2.e2491e0b.chunk.js.map",
+    "static/js/2.d865692c.chunk.js": "/hive-social-network-demo/static/js/2.d865692c.chunk.js",
+    "static/js/2.d865692c.chunk.js.map": "/hive-social-network-demo/static/js/2.d865692c.chunk.js.map",
     "index.html": "/hive-social-network-demo/index.html",
     "static/css/main.3c889fe6.chunk.css.map": "/hive-social-network-demo/static/css/main.3c889fe6.chunk.css.map",
-    "static/js/2.e2491e0b.chunk.js.LICENSE.txt": "/hive-social-network-demo/static/js/2.e2491e0b.chunk.js.LICENSE.txt"
+    "static/js/2.d865692c.chunk.js.LICENSE.txt": "/hive-social-network-demo/static/js/2.d865692c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a3ba5a19.js",
-    "static/js/2.e2491e0b.chunk.js",
+    "static/js/2.d865692c.chunk.js",
     "static/css/main.3c889fe6.chunk.css",
-    "static/js/main.b84fdfa4.chunk.js"
+    "static/js/main.e7b9beeb.chunk.js"
   ]
 }
