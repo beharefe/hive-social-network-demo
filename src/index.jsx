@@ -1,7 +1,7 @@
 import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import App from "./App";
 import { ThemeProvider, getInitialColorMode } from "./hooks/theme";
 import AlertOutlet from "./components/Alert";
@@ -12,7 +12,7 @@ document.documentElement.setAttribute("class", getInitialColorMode());
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <AlertProvider>
         <ThemeProvider>
           {/* Global Alert Component */}
@@ -22,7 +22,7 @@ ReactDOM.render(
           <App />
         </ThemeProvider>
       </AlertProvider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
