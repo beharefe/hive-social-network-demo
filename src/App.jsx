@@ -5,7 +5,7 @@ import Nav from "./components/Nav";
 import Info from "./components/Info";
 import Home from "./pages/Home";
 import Community from "./pages/Community";
-import Proposals from "./pages/Proposals";
+import Profile from "./pages/Profile";
 import Post from "./pages/Post";
 
 const App = () => {
@@ -21,9 +21,9 @@ const App = () => {
             <Route path="/trending-communities/:communityName" exact component={Community}/>
             <Route path="/trending-communities/posts/:author/:permlink" exact component={Post}/>
             <Route
-              path="/proposals"
+              path="/profile"
               exact
-              component={Proposals}
+              component={Profile}
             />
           </Switch>
         </main>

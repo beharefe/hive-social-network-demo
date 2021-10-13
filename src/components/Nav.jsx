@@ -54,7 +54,7 @@ const Nav = () => {
         />
 
         <Button>
-          <Link to="/proposals">Proposals</Link>
+          <Link to="/profile">Profile</Link>
         </Button>
       </div>
 

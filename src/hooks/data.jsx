@@ -6,6 +6,7 @@ import {
   getPost,
 } from "../services/communities";
 import { getBlocks } from "../services/hive";
+import { getAccount, getFollowing } from "../services/account";
 
 // Get trending communities
 export function useGetCommunities() {
@@ -22,7 +23,6 @@ export function useGetCommunities() {
       .finally(() => {
         setLoading(false);
       });
-      
   }, []);
 
   return { communities, loading, error };
@@ -43,7 +43,6 @@ export function useGetCommunity(communityName) {
       .finally(() => {
         setLoading(false);
       });
-      
   }, [communityName]);
 
   return { community, loading, error };
@@ -62,7 +61,6 @@ export function useGetCommunityPosts(communityName) {
       .then(setPosts)
       .catch(setError)
       .finally(() => setLoading(false));
-
   }, [communityName]);
 
   // dependent on communityName
@@ -86,7 +84,6 @@ export function useGetPost({ author, permlink }) {
       .finally(() => {
         setLoading(false);
       });
-
   }, [author, permlink]);
 
   return { post, loading, error };
@@ -97,7 +94,6 @@ export function useBlockInfo() {
   const [info, setInfo] = useState();
 
   useEffect(() => {
-    
     (async () => {
       for await (const block of getBlocks()) {
         setInfo({
@@ -108,8 +104,49 @@ export function useBlockInfo() {
         });
       }
     })();
-
   }, []);
 
   return info;
+}
+
+// Get account
+export function useGetAccount() {
+  const [account, setAccount] = useState({});
+  const [loading, setLoading] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+
+    getAccount()
+      .then((acc) => setAccount(acc[0]))
+      .catch(setError)
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  return { account, loading, error };
+}
+
+// Get account
+export function useGetFollowing(account) {
+  const [following, setFollowing] = useState([]);
+  const [loading, setLoading] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+
+    if (account) {
+      getFollowing(account)
+        .then(setFollowing)
+        .catch(setError)
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [account]);
+
+  return { following, loading, error };
 }

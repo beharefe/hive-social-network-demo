@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from "react";
 
-const ALERT_LIFETIME = 3 * 1000;
+const ALERT_LIFETIME = 5 * 1000;
 
 const AlertContext = React.createContext({
   alerts: [],
