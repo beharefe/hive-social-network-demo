@@ -19,7 +19,7 @@ const Profile = () => {
     },
     {
       onSuccess: (_, variables) => {
-        // After 5 seconds we refetch following list to refresh
+        // After 10 seconds we refetch following list to refresh
         showAlert(
           "Unfollow successfull",
           `Successfully unfollowed account ${variables.accountToUnfollow}, after 10 seconds list will be updated`
