@@ -1,30 +1,38 @@
 import { Link, useParams } from "react-router-dom";
 import marked from "marked";
-import { useGetCommunities, useGetPost } from "../hooks/data";
+import { useQuery } from "react-query";
+import { useGetPost } from "../hooks/data";
 import Button from "../components/Button";
 
 const Post = () => {
   const { author, permlink } = useParams();
   const { post, loading } = useGetPost({ author, permlink });
-  const { communities } = useGetCommunities();
+  
+  const { data: filteredCommunities, isIdle } = useQuery("communities", {
+    initialData: [],
+    enabled: !!post,
+    // show other communities other than the current one
+    select: (communities) =>
+      communities.filter(({ key }) => key !== post.category),
+  });
 
-  const { category, body, title, author: postAuthor } = post;
-
-  const filteredCommunities = communities
-    ? communities.filter(({ key }) => key !== category)
-    : [];
+  const { body, title, author: postAuthor } = post;
 
   return (
     <div className=" py-2 rounded-lg grid grid-cols-3">
       <ul className="flex flex-col px-2">
         <h2 className="text-2xl text-center mb-6">Check Other Communities</h2>
-        {filteredCommunities.map(({ key, title }) => {
-          return (
-            <Button key={key}>
-              <Link to={`/trending-communities/${key}`}>{title}</Link>
-            </Button>
-          );
-        })}
+        {isIdle ? (
+          <span> Waiting for communnity data... </span>
+        ) : (
+          filteredCommunities.map(({ key, title }) => {
+            return (
+              <Button key={key}>
+                <Link to={`/trending-communities/${key}`}>{title}</Link>
+              </Button>
+            );
+          })
+        )}
       </ul>
 
       {loading ? (

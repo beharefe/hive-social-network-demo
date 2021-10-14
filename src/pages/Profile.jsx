@@ -1,12 +1,49 @@
 import { useGetAccount, useGetFollowing } from "../hooks/data";
 import { useAlert } from "../hooks/alert";
 import { unfollow } from "../services/account";
+import { useMutation, useQueryClient } from "react-query";
 
 const Profile = () => {
   const { showAlert } = useAlert();
   const { account, loading } = useGetAccount();
   const { following, loading: followersLoading } = useGetFollowing(
     account?.name
+  );
+
+  const queryClient = useQueryClient();
+
+  // unfollow account and update followers list with mutation and invalidateQueries
+  const mutation = useMutation(
+    async ({ myAccountName, accountToUnfollow }) => {
+      await unfollow(myAccountName, accountToUnfollow);
+    },
+    {
+      onSuccess: (_, variables) => {
+        // After 5 seconds we refetch following list to refresh
+        showAlert(
+          "Unfollow successfull",
+          `Successfully unfollowed account ${variables.accountToUnfollow}, after 10 seconds list will be updated`
+        );
+        setTimeout(() => {
+          queryClient
+            .invalidateQueries({
+              queryKey: "following-list",
+              exact: true,
+              refetchActive: true,
+              refetchInactive: true,
+            })
+            .then(() => {
+              showAlert("Refreshed follower list");
+            });
+        }, 10000);
+      },
+      onError: (error, variables) => {
+        showAlert(
+          `Couldn't unfollow: ${variables.accountToUnfollow}`,
+          error.message
+        );
+      },
+    }
   );
 
   if (loading) {
@@ -32,19 +69,10 @@ const Profile = () => {
               {follow.following}
               <button
                 onClick={() => {
-                  unfollow(name, follow.following)
-                    .then(() => {
-                      showAlert(
-                        "Unfollow successfull",
-                        `Successfully unfollowed account ${follow.following}`
-                      );
-                    })
-                    .catch((err) => {
-                      showAlert(
-                        `Couldn't unfollow: ${follow.following}`,
-                        err.message
-                      );
-                    });
+                  mutation.mutate({
+                    myAccountName: name,
+                    accountToUnfollow: follow.following,
+                  });
                 }}
               >
                 Unfollow

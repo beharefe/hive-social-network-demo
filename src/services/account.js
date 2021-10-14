@@ -12,8 +12,6 @@ export function getFollowing(account) {
   return http.post("condenser_api.get_following", [account, null, "blog"]);
 }
 
-console.log(REACT_APP_HIVE_POSTING);
-
 export function follow(follower, following) {
   return hiveClient.broadcast.json(
     {
