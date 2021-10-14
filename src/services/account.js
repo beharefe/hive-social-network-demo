@@ -29,10 +29,10 @@ export function follow(follower, following) {
 export function unfollow(follower, following) {
   return hiveClient.broadcast.json(
     {
-      id: "unfollow",
+      id: "follow",
       required_posting_auths: [REACT_APP_HIVE_USER],
       required_auths: [],
-      json: JSON.stringify(["unfollow", { follower, following, what: ["blog"] }]),
+      json: JSON.stringify(["follow", { follower, following, what: [] }]),
     },
     PrivateKey.from(REACT_APP_HIVE_POSTING)
   );
