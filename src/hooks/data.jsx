@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import {
   getPopularCommunities,
   getCommunity,
@@ -10,93 +11,88 @@ import { getAccount, getFollowing } from "../services/account";
 
 // Get trending communities
 export function useGetCommunities() {
-  const [communities, setCommunities] = useState([]);
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setLoading(true);
-
-    getPopularCommunities()
-      .then(setCommunities)
-      .catch(setError)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const {
+    data: communities,
+    isLoading: loading,
+    error,
+  } = useQuery("communities", getPopularCommunities, {
+    initialData: [],
+  });
 
   return { communities, loading, error };
 }
 
 // Get community by name
 export function useGetCommunity(communityName) {
-  const [community, setCommunity] = useState({});
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setLoading(true);
-
-    getCommunity(communityName)
-      .then(setCommunity)
-      .catch(setError)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [communityName]);
+  const {
+    data: community,
+    isLoading: loading,
+    error,
+  } = useQuery(
+    ["communities", communityName],
+    () => getCommunity(communityName),
+    {
+      initialData: {},
+    }
+  );
 
   return { community, loading, error };
 }
 
 // Get trending posts for community
+// and keeps this posts by author and permlink
+// to use in the Post page, so we can pre-cache it
+// when we fetch on the Community page
 export function useGetCommunityPosts(communityName) {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setLoading(true);
-
-    getCommunityPosts(communityName)
-      .then(setPosts)
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, [communityName]);
-
-  // dependent on communityName
-  if (!communityName) return [];
+  const {
+    data: posts,
+    isLoading: loading,
+    error,
+  } = useQuery(
+    ["posts", communityName],
+    () => getCommunityPosts(communityName),
+    {
+      enabled: !!communityName,
+      initialData: [],
+      onSuccess: (posts) => {
+        // traverse and put posts by query key to [post, author, permlink] query
+        posts.forEach((post) => {
+          queryClient.setQueryData(["posts", post.author, post.permlink], post);
+        });
+      },
+    }
+  );
 
   return { posts, loading, error };
 }
 
 // Get single post
 export function useGetPost({ author, permlink }) {
-  const [post, setPost] = useState({});
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setLoading(true);
-
-    getPost({ author, permlink })
-      .then(setPost)
-      .catch(setError)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [author, permlink]);
+  const {
+    data: post,
+    isLoading: loading,
+    error,
+  } = useQuery(
+    ["posts", author, permlink],
+    () => getPost({ author, permlink }),
+    {
+      initialData: {},
+    }
+  );
 
   return { post, loading, error };
 }
 
 // Get blockchain info data
 export function useBlockInfo() {
-  const [info, setInfo] = useState();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     (async () => {
       for await (const block of getBlocks()) {
-        setInfo({
+        queryClient.setQueryData("block-info", {
           block_id: block.block_id,
           witness: block.witness,
           server_time: new Date(block.timestamp).toUTCString(),
@@ -106,7 +102,7 @@ export function useBlockInfo() {
     })();
   }, []);
 
-  return info;
+  return useQuery("block-info");
 }
 
 // Get account
@@ -129,24 +125,16 @@ export function useGetAccount() {
   return { account, loading, error };
 }
 
-// Get account
+// Get account followings
 export function useGetFollowing(account) {
-  const [following, setFollowing] = useState([]);
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setLoading(true);
-
-    if (account) {
-      getFollowing(account)
-        .then(setFollowing)
-        .catch(setError)
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }, [account]);
+  const {
+    data: following,
+    isLoading: loading,
+    error,
+  } = useQuery("following-list", () => getFollowing(account), {
+    initialData: [],
+    enabled: !!account
+  });
 
   return { following, loading, error };
 }
